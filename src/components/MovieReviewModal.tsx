@@ -13,7 +13,7 @@ interface MovieReviewModalProps {
 const MovieReviewModal: React.FC<MovieReviewModalProps> = ({ isOpen, onClose, movie }) => {
   const dispatch = useAppDispatch();
   const [review, setReview] = useState('');
-  
+
   useEffect(() => {
     if (movie) {
       setReview(movie.review || '');
@@ -25,12 +25,12 @@ const MovieReviewModal: React.FC<MovieReviewModalProps> = ({ isOpen, onClose, mo
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     dispatch(updateMovieReview({
       id: movie.id,
       review: review,
     }));
-    
+
     onClose();
   };
 
@@ -41,18 +41,18 @@ const MovieReviewModal: React.FC<MovieReviewModalProps> = ({ isOpen, onClose, mo
   };
 
   return (
-    <div 
+    <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
       onClick={handleBackdropClick}
     >
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-xl font-bold mb-4 text-center text-gray-800">Edit Review - {movie.name}</h2>
-        
+
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
-            <input 
+            <input
               type="text"
-              value={movie.name} 
+              value={movie.name}
               disabled
               className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-md bg-gray-200"
             />
@@ -63,8 +63,8 @@ const MovieReviewModal: React.FC<MovieReviewModalProps> = ({ isOpen, onClose, mo
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 min-h-[120px] bg-gray-100"
             />
           </div>
-          
-          <div className="flex justify-center space-x-4">
+
+          <div className="flex justify-end space-x-4">
             <button
               type="button"
               onClick={onClose}

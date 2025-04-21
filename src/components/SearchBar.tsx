@@ -26,14 +26,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ onAddNewClick }) => {
           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
         />
       </div>
-      
+
       <div className="flex space-x-2">
         <button
-          className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+          className="px-4 py-2 bg-white text-gray-800 rounded-md hover:bg-gray-100"
         >
           Search
         </button>
-        
+
         <button
           onClick={onAddNewClick}
           className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"

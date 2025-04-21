@@ -42,10 +42,10 @@ export const movieSlice = createSlice({
       state.searchQuery = action.payload;
     },
     addMovie: (state, action: PayloadAction<Omit<Movie, 'id'>>) => {
-      const newId = state.movies.length > 0 
-        ? Math.max(...state.movies.map(movie => movie.id)) + 1 
+      const newId = state.movies.length > 0
+        ? Math.max(...state.movies.map(movie => movie.id)) + 1
         : 1;
-      
+
       state.movies.push({
         ...action.payload,
         id: newId,
@@ -85,31 +85,37 @@ export const movieSlice = createSlice({
 });
 
 // Export actions
-export const { 
-  setSearchQuery, 
-  addMovie, 
-  updateMovieStatus, 
-  updateMovieReview 
+export const {
+  setSearchQuery,
+  addMovie,
+  updateMovieStatus,
+  updateMovieReview
 } = movieSlice.actions;
 
 // Selectors
 export const selectAllMovies = (state: RootState) => state.movies.movies;
-export const selectMoviesByStatus = (status: MovieStatus) => (state: RootState) => 
+
+export const selectMoviesByStatus = (status: MovieStatus) => (state: RootState) =>
   state.movies.movies.filter(movie => movie.status === status);
+
 export const selectFilteredMovies = (state: RootState) => {
   const { movies, searchQuery } = state.movies;
   if (!searchQuery.trim()) return movies;
-  
-  return movies.filter(movie => 
+
+  return movies.filter(movie =>
     movie.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 };
+
 export const selectFilteredMoviesByStatus = (status: MovieStatus) => (state: RootState) => {
   const filteredMovies = selectFilteredMovies(state);
   return filteredMovies.filter(movie => movie.status === status);
 };
+
 export const selectLoading = (state: RootState) => state.movies.loading;
+
 export const selectError = (state: RootState) => state.movies.error;
+
 export const selectSearchQuery = (state: RootState) => state.movies.searchQuery;
 
 export default movieSlice.reducer;

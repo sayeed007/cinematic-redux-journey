@@ -11,8 +11,8 @@ const Index: React.FC = () => {
           <p className="text-gray-200">Organize your movies with drag and drop</p>
         </div>
       </header>
-      
-      <main className="container mx-auto px-4 py-6">
+
+      <main className="container mx-auto px-4 py-4">
         <MovieBoard />
       </main>
     </div>

@@ -19,14 +19,14 @@ const AddMovieModal: React.FC<AddMovieModalProps> = ({ isOpen, onClose }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (name.trim()) {
       dispatch(addMovie({
         name: name.trim(),
         status,
         review: '',
       }));
-      
+
       // Reset form and close modal
       setName('');
       setStatus('watchlist');
@@ -41,13 +41,13 @@ const AddMovieModal: React.FC<AddMovieModalProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div 
+    <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
       onClick={handleBackdropClick}
     >
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md border-2 border-gray-200">
         <h2 className="text-xl font-bold mb-4 text-center text-gray-800">Add New Movie</h2>
-        
+
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <input
@@ -59,7 +59,7 @@ const AddMovieModal: React.FC<AddMovieModalProps> = ({ isOpen, onClose }) => {
               required
             />
           </div>
-          
+
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Status
@@ -74,8 +74,8 @@ const AddMovieModal: React.FC<AddMovieModalProps> = ({ isOpen, onClose }) => {
               <option value="watched">Watched</option>
             </select>
           </div>
-          
-          <div className="flex justify-center space-x-4">
+
+          <div className="flex justify-end space-x-4">
             <button
               type="button"
               onClick={onClose}
