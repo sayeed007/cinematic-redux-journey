@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { useAppDispatch } from '../redux/hooks';
 import { addMovie } from '../redux/features/movieSlice';
 import { MovieStatus } from '../types/movie';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface AddMovieModalProps {
   isOpen: boolean;
@@ -14,7 +14,7 @@ const AddMovieModal: React.FC<AddMovieModalProps> = ({ isOpen, onClose }) => {
   const [name, setName] = useState('');
   const [status, setStatus] = useState<MovieStatus>('watchlist');
 
-  // If modal is not open, don't render anything
+  // If modal is not open, we still render within AnimatePresence but return null
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -41,58 +41,77 @@ const AddMovieModal: React.FC<AddMovieModalProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-      onClick={handleBackdropClick}
-    >
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md border-2 border-gray-200">
-        <h2 className="text-xl font-bold mb-4 text-center text-gray-800">Add New Movie</h2>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          onClick={handleBackdropClick}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <motion.div
+            className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md border-2 border-gray-200"
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+          >
+            <h2 className="text-xl font-bold mb-4 text-center text-gray-800">Add New Movie</h2>
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Movie name"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 bg-gray-100"
-              required
-            />
-          </div>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <motion.input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Movie name"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 bg-gray-100"
+                  required
+                  whileFocus={{ scale: 1.02, boxShadow: "0px 0px 8px rgba(109, 40, 217, 0.3)" }}
+                />
+              </div>
 
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Status
-            </label>
-            <select
-              value={status}
-              onChange={(e) => setStatus(e.target.value as MovieStatus)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 bg-gray-100"
-            >
-              <option value="watchlist">Watch List</option>
-              <option value="watching">Watching</option>
-              <option value="watched">Watched</option>
-            </select>
-          </div>
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Status
+                </label>
+                <motion.select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value as MovieStatus)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 bg-gray-100"
+                  whileFocus={{ scale: 1.02, boxShadow: "0px 0px 8px rgba(109, 40, 217, 0.3)" }}
+                >
+                  <option value="watchlist">Watch List</option>
+                  <option value="watching">Watching</option>
+                  <option value="watched">Watched</option>
+                </motion.select>
+              </div>
 
-          <div className="flex justify-end space-x-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 font-medium"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 font-medium"
-            >
-              Save
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+              <div className="flex justify-end space-x-4">
+                <motion.button
+                  type="button"
+                  onClick={onClose}
+                  className="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 font-medium"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Cancel
+                </motion.button>
+                <motion.button
+                  type="submit"
+                  className="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 font-medium"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Save
+                </motion.button>
+              </div>
+            </form>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

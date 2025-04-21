@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
@@ -14,6 +13,7 @@ import SearchBar from './SearchBar';
 import AddMovieModal from './AddMovieModal';
 import MovieReviewModal from './MovieReviewModal';
 import { Movie, MovieStatus } from '../types/movie';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const MovieBoard: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -70,19 +70,65 @@ const MovieBoard: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading movies...</div>;
+    return (
+      <motion.div
+        className="text-center py-8"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <motion.div
+          animate={{
+            rotate: [0, 360],
+            scale: [1, 1.1, 1]
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 1.5,
+            ease: "easeInOut"
+          }}
+          className="inline-block w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full"
+        ></motion.div>
+        <motion.p
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{
+            repeat: Infinity,
+            duration: 1.5,
+            ease: "easeInOut"
+          }}
+        >
+          Loading movies...
+        </motion.p>
+      </motion.div>
+    );
   }
 
   if (error) {
-    return <div className="text-center py-8 text-red-600">Error: {error}</div>;
+    return (
+      <motion.div
+        className="text-center py-8 text-red-600"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        Error: {error}
+      </motion.div>
+    );
   }
 
   return (
-    <div className="container mx-auto px-4 py-4 bg-gray-200 rounded-lg">
+    <motion.div
+      className="container mx-auto px-4 py-4 bg-gray-200 rounded-lg"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <SearchBar onAddNewClick={() => setIsAddModalOpen(true)} />
 
       <DragDropContext onDragEnd={handleDragEnd}>
-        <div className="flex flex-wrap mx-auto gap-10">
+        <motion.div
+          className="flex flex-wrap mx-auto gap-10"
+          layout
+        >
           <MovieColumn
             title="Watch List"
             status="watchlist"
@@ -103,7 +149,7 @@ const MovieBoard: React.FC = () => {
             movies={watchedMovies}
             openReviewModal={handleOpenReviewModal}
           />
-        </div>
+        </motion.div>
       </DragDropContext>
 
       {/* Modals */}
@@ -117,7 +163,7 @@ const MovieBoard: React.FC = () => {
         onClose={handleCloseReviewModal}
         movie={selectedMovie}
       />
-    </div>
+    </motion.div>
   );
 };
 
