@@ -1,0 +1,27 @@
+
+[
+    {
+        "id": 1,
+        "name": "Titanic",
+        "review": "This is dummy review 1",
+        "status": "watchlist"
+    },
+    {
+        "id": 2,
+        "name": "Iron Man",
+        "review": "This is dummy review 2",
+        "status": "watching"
+    },    
+    {
+        "id": 3,
+        "name": "Superman",
+        "review": "This is dummy review 3",
+        "status": "watched"
+    },
+    {
+        "id": 4,
+        "name": "Avatar",
+        "review": "This is dummy review 4",
+        "status": "watchlist"
+    }
+]
